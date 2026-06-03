@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>انتخاب نوع سوال</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <style>
+    body { background-color: #f8f9fa; font-family: Tahoma, sans-serif; }
+    .btn-type { margin: 10px; padding: 12px 24px; font-size: 1.1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="container text-center mt-5">
+    <h2 class="mb-4">انتخاب نوع سوال برای {{ topic }}</h2>
+    <div>
+      <a href="/questions/{{ topic }}/TF/" class="btn btn-warning btn-type">✅❌ درست/غلط</a>
+      <a href="/questions/{{ topic }}/FILL/" class="btn btn-info btn-type">✏️ جاخالی</a>
+      <a href="/questions/{{ topic }}/TEXT/" class="btn btn-secondary btn-type">📖 تشریحی</a>
+      <a href="/questions/{{ topic }}/MCQ/" class="btn btn-danger btn-type">🎯 تستی</a>
+    </div>
+  </div>
+</body>
+</html>

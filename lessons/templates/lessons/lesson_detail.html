@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ lesson.title }}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <style>
+    .step { display: none; margin-top: 30px; }
+    .active-step { display: block; }
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <h2>{{ lesson.title }}</h2>
+
+  <div id="step1" class="step active-step">
+      <h4>مرحله ۱: توضیح</h4>
+      <p>{{ lesson.description }}</p>
+      <button class="btn btn-primary" onclick="nextStep(2)">ادامه</button>
+  </div>
+
+  <div id="step2" class="step">
+      <h4>مرحله ۲: فیلم آموزشی</h4>
+
+      {% if lesson.video %}
+      <video width="100%" controls>
+          <source src="{{ lesson.video.url }}" type="video/mp4">
+      </video>
+      {% else %}
+      <p>ویدیویی ثبت نشده است.</p>
+      {% endif %}
+
+      <button class="btn btn-success mt-3" onclick="nextStep(3)">ادامه</button>
+  </div>
+
+  <div id="step3" class="step">
+      <h4>پایان درس</h4>
+      <p>آفرین 🎉 این درس به پایان رسید.</p>
+      <a href="{% url 'lesson_list' %}" class="btn btn-secondary">
+          بازگشت به لیست مباحث
+      </a>
+  </div>
+</div>
+
+<script>
+function nextStep(step) {
+    document.querySelectorAll('.step')
+            .forEach(s => s.classList.remove('active-step'));
+    document.getElementById('step' + step)
+            .classList.add('active-step');
+}
+</script>
+
+</body>
+</html>

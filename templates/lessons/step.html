@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ topic.title }}</title>
+
+    <style>
+
+        body{
+            font-family:tahoma;
+            background:#f4f6f9;
+            margin:0;
+            padding:0;
+        }
+
+        .header{
+            background:#2c3e50;
+            color:white;
+            text-align:center;
+            padding:25px;
+        }
+
+        .container{
+            width:90%;
+            max-width:900px;
+            margin:30px auto;
+        }
+
+        .card{
+            background:white;
+            border-radius:15px;
+            padding:25px;
+            box-shadow:0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .progress-bar{
+            width:100%;
+            height:20px;
+            background:#ddd;
+            border-radius:20px;
+            overflow:hidden;
+            margin:15px 0;
+        }
+
+        .progress-fill{
+            height:100%;
+            background:#27ae60;
+            transition:0.5s;
+        }
+
+        img{
+            max-width:100%;
+            border-radius:10px;
+            display:block;
+            margin:auto;
+        }
+
+        video{
+            width:100%;
+            border-radius:10px;
+        }
+
+        .question{
+            background:#eef7ff;
+            padding:15px;
+            border-radius:10px;
+            font-size:18px;
+        }
+
+        .analysis{
+            display:none;
+            background:#e8ffe8;
+            padding:15px;
+            margin-top:15px;
+            border-radius:10px;
+        }
+
+        .btn{
+            background:#3498db;
+            color:white;
+            border:none;
+            padding:12px 20px;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:16px;
+            margin-top:15px;
+        }
+
+        .btn:hover{
+            background:#2980b9;
+        }
+
+        .finish{
+            text-align:center;
+            background:#e8ffe8;
+            padding:25px;
+            border-radius:15px;
+        }
+
+        .navigation{
+            text-align:center;
+            margin-top:25px;
+        }
+
+        .navigation a{
+            text-decoration:none;
+            margin:0 5px;
+        }
+
+    </style>
+
+    <script>
+        function showAnalysis(){
+            document.getElementById("analysis").style.display="block";
+        }
+    </script>
+
+</head>
+<body>
+
+<div class="header">
+    <h1>{{ topic.title }}</h1>
+    <p>درسنامه آموزشی ریاضی</p>
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <h3>
+            مرحله {{ step.order }} از {{ total_steps }}
+        </h3>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ progress }}%;"></div>
+        </div>
+
+        <p>{{ progress }}٪ تکمیل شده</p>
+
+        {% if step.title %}
+            <h2>{{ step.title }}</h2>
+        {% endif %}
+
+        {% if step.step_type == 'image' %}
+
+            <img src="{{ step.image.url }}" alt="تصویر آموزشی">
+
+        {% elif step.step_type == 'video' %}
+
+            <video controls>
+                <source src="{{ step.video.url }}">
+            </video>
+
+        {% elif step.step_type == 'question' %}
+
+            <div class="question">
+                {{ step.question }}
+            </div>
+
+            <button class="btn" onclick="showAnalysis()">
+                نمایش تحلیل
+            </button>
+
+            <div id="analysis" class="analysis">
+                {{ step.analysis }}
+            </div>
+
+        {% elif step.step_type == 'finish' %}
+
+            <div class="finish">
+                <h2>🎉 تبریک!</h2>
+                <p>شما این درس را با موفقیت به پایان رساندید.</p>
+
+                <a href="{% url 'topic_list' %}">
+                    <button class="btn">
+                        بازگشت به انتخاب موضوع
+                    </button>
+                </a>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <div class="navigation">
+
+        {% if previous_step %}
+        <a href="{% url 'step_view' topic.id previous_step.order %}">
+            <button class="btn">
+                ← مرحله قبل
+            </button>
+        </a>
+        {% endif %}
+
+        {% if next_step %}
+        <a href="{% url 'step_view' topic.id next_step.order %}">
+            <button class="btn">
+                مرحله بعد →
+            </button>
+        </a>
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
